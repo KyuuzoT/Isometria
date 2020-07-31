@@ -17,11 +17,13 @@ public class SkeletonAI : MonoBehaviour
 
     private Animation _animationComponent;
     private GameObject _player;
+    private HealthSystem _healthSystem;
 
     void Start()
     {
         _animationComponent = transform.GetComponent<Animation>();
         _player = GameObject.FindGameObjectWithTag("Player");
+        _healthSystem = gameObject.GetComponent<HealthSystem>();
     }
 
     // Update is called once per frame
@@ -69,9 +71,9 @@ public class SkeletonAI : MonoBehaviour
         }
     }
 
-    public void GetHit(int damage)
+    public void GetHit(float Damage)
     {
-        //TODO: health reduction
+        _healthSystem.ChangeCurrentHP(-Damage);
     }
 
     private void OnMouseOver()

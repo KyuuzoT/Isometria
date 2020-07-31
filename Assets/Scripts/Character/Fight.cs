@@ -5,6 +5,7 @@ using UnityEngine;
 public class Fight : MonoBehaviour
 {
     [SerializeField] private AnimationClip _attackAnimation;
+    [SerializeField] private float _damage;
 
     internal GameObject Opponent;
     private Animation _animationComponent;
@@ -26,6 +27,7 @@ public class Fight : MonoBehaviour
             {
                 Vector3 lookDirection = new Vector3(0, Opponent.transform.position.y, 0);
                 transform.LookAt(lookDirection);
+                Opponent.GetComponent<SkeletonAI>().GetHit(_damage);
             }
         }
 
