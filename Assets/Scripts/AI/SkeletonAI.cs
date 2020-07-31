@@ -22,6 +22,7 @@ public class SkeletonAI : MonoBehaviour
     private HealthSystem _healthSystem;
     private States _currentAnimationState;
     private bool _combatIdleFlag;
+    private bool _deathFlag = false;
 
     void Start()
     {
@@ -78,7 +79,11 @@ public class SkeletonAI : MonoBehaviour
             case States.Fight:
                 break;
             case States.Death:
-                _animationComponent.CrossFade(_deathAnimation.name);
+                if(!_deathFlag)
+                {
+                    _animationComponent.CrossFade(_deathAnimation.name);
+                    _deathFlag = true;
+                }
                 break;
             default:
                 _animationComponent.CrossFade(_idleAnimation.name);
