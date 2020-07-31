@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.AdditionalSystems;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,22 +9,25 @@ public class Fight : MonoBehaviour
     [SerializeField] private AnimationClip _attackAnimation;
     [SerializeField] private float _damage;
     [SerializeField] private float _impactTime;
+    [SerializeField] private float _attackRange = 0;
 
     internal GameObject Opponent;
+
     private Animation _animationComponent;
     private bool _impactFlag = false;
 
     void Start()
     {
+        _attackRange += transform.GetComponent<ClickToMove>().GetApproachDistance;
         _animationComponent = gameObject.GetComponent<Animation>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && IsInRange())
         {
-            ClickToMove.CurrentState = ClickToMove.State.Fight;
+            ClickToMove.CurrentState = States.Fight;
             _animationComponent.Play(_attackAnimation.name);
 
             if (!Opponent.Equals(null))
@@ -35,7 +39,7 @@ public class Fight : MonoBehaviour
 
         if (!_animationComponent.IsPlaying(_attackAnimation.name))
         {
-            ClickToMove.CurrentState = ClickToMove.State.Idle;
+            ClickToMove.CurrentState = States.Idle;
             _impactFlag = false;
         }
 
@@ -44,17 +48,20 @@ public class Fight : MonoBehaviour
 
     private void Impact()
     {
-        //Debug.Log($"Opponent: {Opponent}\nAnimation: {_animationComponent.IsPlaying(_attackAnimation.name)}\nFlag: {_impactFlag}");
         if(Opponent != null && _animationComponent.IsPlaying(_attackAnimation.name) && !_impactFlag)
         {
             float AnimationTime = _animationComponent[_attackAnimation.name].time;
             float AnimationImpact = _animationComponent[_attackAnimation.name].length * _impactTime;
-            Debug.Log($"Animation Time: {AnimationTime}\nAnimation Impact: {AnimationImpact}");
             if (AnimationTime > AnimationImpact)
             {
                 Opponent.GetComponent<SkeletonAI>().GetHit(_damage);
                 _impactFlag = true;
             }
         }
+    }
+
+    private bool IsInRange()
+    {
+        return Vector3.Distance(Opponent.transform.position, transform.position) <= _attackRange;
     }
 }

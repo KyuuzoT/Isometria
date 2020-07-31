@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.AdditionalSystems;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,17 +12,18 @@ public class ClickToMove : MonoBehaviour
     [SerializeField] private CharacterController _controller;
     [SerializeField] private AnimationClip _idleAnimation;
     [SerializeField] private AnimationClip _runAnimation;
+
     private Vector3 position;
     private Animation _animationComponent;
+    internal static States CurrentState;
 
-    public enum State
+    public float GetApproachDistance
     {
-        Idle,
-        Move,
-        Fight
+        get
+        {
+            return _approachDistance;
+        }
     }
-
-    internal static State CurrentState = State.Idle;
 
     private void Start()
     {
@@ -31,7 +33,7 @@ public class ClickToMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!CurrentState.Equals(State.Fight))
+        if (!CurrentState.Equals(States.Fight))
         {
             if (Input.GetMouseButton(0))
             {

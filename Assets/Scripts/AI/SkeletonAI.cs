@@ -107,15 +107,7 @@ public class SkeletonAI : MonoBehaviour
 
     private bool IsInAgroRadius()
     {
-        //Debug.Log($"Distance to enemy: {Vector3.Distance(_player.transform.position, transform.position)}");
-        if(Vector3.Distance(_player.transform.position, transform.position) < _agroRadius)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return Vector3.Distance(_player.transform.position, transform.position) < _agroRadius;
     }
 
     public void GetHit(float Damage)
