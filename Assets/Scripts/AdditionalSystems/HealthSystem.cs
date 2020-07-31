@@ -8,9 +8,6 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private float _maxHP = 100;
     [SerializeField] private float _currentHP = 100;
     [SerializeField] private float _secondsBeforeDisappear = 360;
-    [SerializeField] private AnimationClip _deathAnimation;
-
-    private Animation _animationComponent;
 
     public float GetCurrentHealth
     {
@@ -28,11 +25,6 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        _animationComponent = gameObject.GetComponent<Animation>();
-    }
-
     void Update()
     {
         DeathHandler();
@@ -43,7 +35,6 @@ public class HealthSystem : MonoBehaviour
         if(_currentHP <= 0)
         {
             _currentHP = 0;
-            _animationComponent.CrossFade(_deathAnimation.name);
             Invoke("DestroyObject", _secondsBeforeDisappear);
         }
     }
