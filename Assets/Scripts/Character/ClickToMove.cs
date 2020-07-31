@@ -54,7 +54,6 @@ public class ClickToMove : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 1000f) && hit.collider.tag != "Player")
         {
             position = hit.point;
-            Debug.Log(position);
         }
     }
 

@@ -17,15 +17,19 @@ public class Fight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             ClickToMove.CurrentState = ClickToMove.State.Fight;
             _animationComponent.Play(_attackAnimation.name);
-            Vector3 lookatPosition = new Vector3(0, Opponent.transform.position.y, 0);
-            transform.LookAt(lookatPosition);
+
+            if (!Opponent.Equals(null))
+            {
+                Vector3 lookDirection = new Vector3(0, Opponent.transform.position.y, 0);
+                transform.LookAt(lookDirection);
+            }
         }
 
-        if(!_animationComponent.IsPlaying(_attackAnimation.name))
+        if (!_animationComponent.IsPlaying(_attackAnimation.name))
         {
             ClickToMove.CurrentState = ClickToMove.State.Idle;
         }

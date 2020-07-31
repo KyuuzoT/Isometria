@@ -45,7 +45,7 @@ public class SkeletonAI : MonoBehaviour
     {
         if (Vector3.Distance(_player.transform.position, transform.position) > _approachDistance)
         {
-            Vector3 lookatPosition = new Vector3(0, _player.transform.position.y, 0);
+            Vector3 lookDirection = new Vector3(0, _player.transform.position.y, 0);
             transform.LookAt(_player.transform.position);
             _controller.SimpleMove(transform.forward * _speed);
             _animationComponent.CrossFade(_runAnimation.name);
@@ -67,6 +67,11 @@ public class SkeletonAI : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void GetHit(int damage)
+    {
+        //TODO: health reduction
     }
 
     private void OnMouseOver()
