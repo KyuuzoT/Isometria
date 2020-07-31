@@ -27,7 +27,19 @@ public class HealthSystem : MonoBehaviour
 
     void Update()
     {
-        DeathHandler();
+        if(gameObject.tag == "Player")
+        {
+            DeathHandler("YOU'RE DEAD!");
+        }
+        else
+        {
+            DeathHandler();
+        }
+    }
+
+    private void DeathHandler(string deathMessage)
+    {
+        Debug.Log(deathMessage);
     }
 
     private void DeathHandler()

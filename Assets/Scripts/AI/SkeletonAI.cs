@@ -9,12 +9,15 @@ public class SkeletonAI : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _agroRadius;
     [SerializeField] private float _approachDistance = 1;
+    [SerializeField] private float _damage = 1;
+    [SerializeField][Range(5,15)] private float _attackSpeed = 1;
     [SerializeField] [Range(0,1)] private float _aggressiveness;
     [SerializeField] private CharacterController _controller;
 
     [SerializeField] private AnimationClip _idleAnimation;
     [SerializeField] private AnimationClip _idleCombatAnimation;
     [SerializeField] private AnimationClip _runAnimation;
+    [SerializeField] private AnimationClip _hitAnimation;
     [SerializeField] private AnimationClip _deathAnimation;
 
     private Animation _animationComponent;
@@ -75,6 +78,8 @@ public class SkeletonAI : MonoBehaviour
                 MoveTowardsPlayer();
                 break;
             case States.Fight:
+                
+                AttackPlayer();
                 break;
             case States.Death:
                 if(!_deathFlag)
@@ -87,6 +92,17 @@ public class SkeletonAI : MonoBehaviour
                 _animationComponent.CrossFade(_idleAnimation.name);
                 break;
         }
+    }
+
+    private void AttackPlayer()
+    {
+        Invoke("HitPlayer", 1 + (1 - 1 / _attackSpeed));
+    }
+
+    private void HitPlayer()
+    {
+        _animationComponent.CrossFade(_hitAnimation.name);
+        _player.GetComponent<HealthSystem>().ChangeCurrentHP(-_damage);
     }
 
     private void MoveTowardsPlayer()
