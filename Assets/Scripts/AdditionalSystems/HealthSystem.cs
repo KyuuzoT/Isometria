@@ -12,6 +12,14 @@ public class HealthSystem : MonoBehaviour
 
     private Animation _animationComponent;
 
+    public float GetCurrentHealth
+    {
+        get
+        {
+            return _currentHP;
+        }
+    }
+
     void Awake()
     {
         if(_maxHP < 1)

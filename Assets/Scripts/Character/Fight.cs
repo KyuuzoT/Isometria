@@ -9,6 +9,7 @@ public class Fight : MonoBehaviour
 
     internal GameObject Opponent;
     private Animation _animationComponent;
+    int i = 0;
 
     void Start()
     {
@@ -18,7 +19,7 @@ public class Fight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             ClickToMove.CurrentState = ClickToMove.State.Fight;
             _animationComponent.Play(_attackAnimation.name);
@@ -27,6 +28,7 @@ public class Fight : MonoBehaviour
             {
                 Vector3 lookDirection = new Vector3(0, Opponent.transform.position.y, 0);
                 transform.LookAt(lookDirection);
+                Debug.Log($"{i++} hit!");
                 Opponent.GetComponent<SkeletonAI>().GetHit(_damage);
             }
         }

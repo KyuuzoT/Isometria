@@ -47,7 +47,6 @@ public class SkeletonAI : MonoBehaviour
     {
         if (Vector3.Distance(_player.transform.position, transform.position) > _approachDistance)
         {
-            Vector3 lookDirection = new Vector3(0, _player.transform.position.y, 0);
             transform.LookAt(_player.transform.position);
             _controller.SimpleMove(transform.forward * _speed);
             _animationComponent.CrossFade(_runAnimation.name);
@@ -60,7 +59,7 @@ public class SkeletonAI : MonoBehaviour
 
     private bool IsInAgroRadius()
     {
-        Debug.Log($"Distance to enemy: {Vector3.Distance(_player.transform.position, transform.position)}");
+        //Debug.Log($"Distance to enemy: {Vector3.Distance(_player.transform.position, transform.position)}");
         if(Vector3.Distance(_player.transform.position, transform.position) < _agroRadius)
         {
             return true;
@@ -74,6 +73,7 @@ public class SkeletonAI : MonoBehaviour
     public void GetHit(float Damage)
     {
         _healthSystem.ChangeCurrentHP(-Damage);
+        Debug.Log(_healthSystem.GetCurrentHealth);
     }
 
     private void OnMouseOver()
