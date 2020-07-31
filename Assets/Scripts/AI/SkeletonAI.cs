@@ -43,13 +43,11 @@ public class SkeletonAI : MonoBehaviour
         {
             _currentAnimationState = States.Idle;
             _combatIdleFlag = true;
-            
         }
         else
         {
             _currentAnimationState = States.Idle;
             _combatIdleFlag = false;
-            
         }
 
         if(gameObject.GetComponent<HealthSystem>().GetCurrentHealth == 0)

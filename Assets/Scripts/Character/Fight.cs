@@ -20,6 +20,7 @@ public class Fight : MonoBehaviour
     {
         _attackRange += transform.GetComponent<ClickToMove>().GetApproachDistance;
         _animationComponent = gameObject.GetComponent<Animation>();
+
     }
 
     // Update is called once per frame
@@ -27,28 +28,28 @@ public class Fight : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && IsInRange())
         {
-            ClickToMove.CurrentState = States.Fight;
-            _animationComponent.Play(_attackAnimation.name);
-
             if (!Opponent.Equals(null))
             {
                 Vector3 lookDirection = new Vector3(0, Opponent.transform.position.y, 0);
                 transform.LookAt(lookDirection);
             }
+
+            ClickToMove.CurrentState = States.Fight;
+            _animationComponent.CrossFade(_attackAnimation.name);
         }
+
+        Impact();
 
         if (!_animationComponent.IsPlaying(_attackAnimation.name))
         {
             ClickToMove.CurrentState = States.Idle;
             _impactFlag = false;
         }
-
-        Impact();
     }
 
     private void Impact()
     {
-        if(Opponent != null && _animationComponent.IsPlaying(_attackAnimation.name) && !_impactFlag)
+        if (Opponent != null && _animationComponent.IsPlaying(_attackAnimation.name) && !_impactFlag)
         {
             float AnimationTime = _animationComponent[_attackAnimation.name].time;
             float AnimationImpact = _animationComponent[_attackAnimation.name].length * _impactTime;
@@ -56,6 +57,7 @@ public class Fight : MonoBehaviour
             {
                 Opponent.GetComponent<SkeletonAI>().GetHit(_damage);
                 _impactFlag = true;
+                _animationComponent.Stop(_attackAnimation.name);
             }
         }
     }

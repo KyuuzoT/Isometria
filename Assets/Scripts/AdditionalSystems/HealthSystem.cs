@@ -54,5 +54,10 @@ public class HealthSystem : MonoBehaviour
         {
             _currentHP += ammount;
         }
+
+        if (_currentHP < 0)
+        {
+            _currentHP = 0;
+        }
     }
 }

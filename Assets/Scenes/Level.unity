@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHP: 100
   _currentHP: 100
-  _secondsBeforeDisappear: 5
+  _secondsBeforeDisappear: 360
 --- !u!1 &299551714
 GameObject:
   m_ObjectHideFlags: 0
