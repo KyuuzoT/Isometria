@@ -242,6 +242,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b91797e7d4359459c10dd422e8298f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthBarFrame: {fileID: 2800000, guid: bfacbf8acfec4f945a28ff1a76bfdd5d, type: 3}
+  _healthBarFramePosition:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 200
+    height: 100
+  _healthBarPoint: {fileID: 2800000, guid: 17e8fab8cc52cdf49b6201bad07431f1, type: 3}
+  _healthBarPointPosition:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!4 &357741921
 Transform:
   m_ObjectHideFlags: 0

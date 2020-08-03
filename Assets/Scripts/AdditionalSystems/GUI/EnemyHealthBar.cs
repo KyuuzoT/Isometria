@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.AdditionalSystems.GUI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class EnemyHealthBar : MonoBehaviour
     [SerializeField] private Rect _healthBarFramePosition;
 
     [SerializeField] private Texture2D _healthBarPoint;
-    [SerializeField] private Rect _healthBarPointPosition;
+    [SerializeField] private Rect _healthBarPointPosition;  
 
     void Start()
     {
@@ -22,6 +23,7 @@ public class EnemyHealthBar : MonoBehaviour
 
     private void OnGUI()
     {
-        
+        _healthBarFramePosition = _healthBarFramePosition.AdjustToScreenWidth();
+        GUI.DrawTexture(_healthBarFramePosition, _healthBarFrame);
     }
 }
