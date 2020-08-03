@@ -10,8 +10,9 @@ public class SkeletonAI : MonoBehaviour
     [SerializeField] private float _agroRadius;
     [SerializeField] private float _approachDistance = 1;
     [SerializeField] private float _damage = 1;
-    [SerializeField] [Range(5,15)] private float _attackSpeed = 1;
-    [SerializeField] [Range(0,1)] private float _aggressiveness;
+    [SerializeField] [Range(5, 15)] private float _attackSpeed = 1;
+    [SerializeField] [Range(0, 1)] private float _aggressiveness;
+    [SerializeField] private int _stunTimeSeconds = 3;
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Renderer _renderComponent;
 
@@ -23,11 +24,14 @@ public class SkeletonAI : MonoBehaviour
     [SerializeField] private AnimationClip _deathAnimation;
 
     [SerializeField] private EnemyHealthBar _script;
+    [SerializeField] private int _experience = 100;
+
 
     private Animation _animationComponent;
     private GameObject _player;
     private HealthSystem _healthSystem;
     private States _currentAnimationState;
+    private States _tempState;
     private bool _combatIdleFlag;
     private bool _deathFlag = false;
     private bool _isHit = false;
@@ -104,12 +108,30 @@ public class SkeletonAI : MonoBehaviour
                 {
                     _animationComponent.CrossFade(_deathAnimation.name);
                     _deathFlag = true;
+                    _player.GetComponent<LevelSystem>().AddExperience(_experience);
                 }
+                break;
+            case States.Stun:
+                InvokeRepeating("GetStunned", _stunTimeSeconds, 0);
                 break;
             default:
                 _animationComponent.CrossFade(_idleAnimation.name);
                 break;
         }
+    }
+
+    public void Stun(int seconds)
+    {
+        _tempState = _currentAnimationState;
+        _currentAnimationState = States.Stun;
+        _stunTimeSeconds = seconds;
+        Debug.Log("Stun!");
+    }
+
+    private void GetStunned()
+    {
+        _animationComponent.CrossFade(_idleCombatAnimation.name);
+        _currentAnimationState = _tempState;
     }
 
     private void AttackPlayer()
@@ -170,7 +192,10 @@ public class SkeletonAI : MonoBehaviour
     {
         _player.transform.GetComponent<Fight>().Opponent = gameObject;
         ChangeOutlineThickness(0.1f);
-        _script.enabled = true;
+        if(!_deathFlag)
+        {
+            _script.enabled = true;
+        }
     }
 
     private void OnMouseExit()

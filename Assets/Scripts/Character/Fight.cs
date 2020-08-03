@@ -11,12 +11,27 @@ public class Fight : MonoBehaviour
     [SerializeField] private float _damage;
     [SerializeField] private float _impactTime;
     [SerializeField] private float _attackRange = 0;
+    [SerializeField] private float _combatEscapeTime;
+    [SerializeField] private int _stunTimeSeconds;
+    private float _countDown;
 
     internal GameObject Opponent;
 
     private Animation _animationComponent;
     private bool _impactFlag = false;
     private bool _deathFlag = false;
+
+    public float Damage
+    {
+        get
+        {
+            return _damage;
+        }
+        set
+        {
+            _damage = value;
+        }
+    }
 
     void Start()
     {
@@ -29,6 +44,13 @@ public class Fight : MonoBehaviour
     {
         if(!_deathFlag)
         {
+            if(Input.GetKeyUp(KeyCode.Alpha1) && IsInRange())
+            {
+                Opponent.GetComponent<SkeletonAI>().Stun(_stunTimeSeconds);
+                LookAtEnemy();
+                PlayHitAnimation();
+            }
+
             if (Input.GetKey(KeyCode.Space) && IsInRange())
             {
                 LookAtEnemy();
@@ -74,7 +96,7 @@ public class Fight : MonoBehaviour
         if (!Opponent.Equals(null))
         {
             Vector3 lookDirection = new Vector3(0, Opponent.transform.position.y, 0);
-            transform.LookAt(lookDirection);
+            transform.LookAt(Opponent.transform.position);
         }
     }
 
@@ -86,10 +108,22 @@ public class Fight : MonoBehaviour
             float AnimationImpact = _animationComponent[_attackAnimation.name].length * _impactTime;
             if (AnimationTime > AnimationImpact)
             {
+                _countDown = _combatEscapeTime;
                 Opponent.GetComponent<SkeletonAI>().GetHit(_damage);
+                CancelInvoke("CombatEscapeCountDown");
+                InvokeRepeating("CombatEscapeCountDown", time: 0, repeatRate: 1);
                 _impactFlag = true;
                 _animationComponent.Stop(_attackAnimation.name);
             }
+        }
+    }
+
+    private void CombatEscapeCountDown()
+    {
+        _countDown--;
+        if(_countDown == 0)
+        {
+            CancelInvoke("CombatEscapeCountDown");
         }
     }
 

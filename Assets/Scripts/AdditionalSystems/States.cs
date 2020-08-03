@@ -12,6 +12,7 @@ namespace Assets.Scripts.AdditionalSystems
         Idle,
         Move,
         Fight,
+        Stun,
         Death
     }
 }

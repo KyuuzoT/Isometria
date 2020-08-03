@@ -19,11 +19,15 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public float GetMaxHealth
+    public float MaximalHealth
     {
         get
         {
             return _maxHP;
+        }
+        set
+        {
+            _maxHP = value;
         }
     }
 
