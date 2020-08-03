@@ -7,6 +7,7 @@ using UnityEngine;
 public class Fight : MonoBehaviour
 {
     [SerializeField] private AnimationClip _attackAnimation;
+    [SerializeField] private AnimationClip _deathAnimation;
     [SerializeField] private float _damage;
     [SerializeField] private float _impactTime;
     [SerializeField] private float _attackRange = 0;
@@ -15,35 +16,65 @@ public class Fight : MonoBehaviour
 
     private Animation _animationComponent;
     private bool _impactFlag = false;
+    private bool _deathFlag = false;
 
     void Start()
     {
         _attackRange += transform.GetComponent<ClickToMove>().GetApproachDistance;
         _animationComponent = gameObject.GetComponent<Animation>();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && IsInRange())
+        if(!_deathFlag)
         {
-            if (!Opponent.Equals(null))
+            if (Input.GetKey(KeyCode.Space) && IsInRange())
             {
-                Vector3 lookDirection = new Vector3(0, Opponent.transform.position.y, 0);
-                transform.LookAt(lookDirection);
+                LookAtEnemy();
+                PlayHitAnimation();
             }
 
-            ClickToMove.CurrentState = States.Fight;
-            _animationComponent.CrossFade(_attackAnimation.name);
+            Impact();
+
+            if (IsDead())
+            {
+                PlayDeathAnimation();
+            }
+            else if (!_animationComponent.IsPlaying(_attackAnimation.name))
+            {
+                ClickToMove.CurrentState = States.Idle;
+                _impactFlag = false;
+            }
         }
+    }
 
-        Impact();
+    private bool IsDead()
+    {
+        return transform.GetComponent<HealthSystem>().GetCurrentHealth <= 0;
+    }
 
-        if (!_animationComponent.IsPlaying(_attackAnimation.name))
+    private void PlayDeathAnimation()
+    {
+        ClickToMove.CurrentState = States.Death;
+        Debug.Log("Death animation");
+        _animationComponent.Play(_deathAnimation.name);
+        transform.GetComponent<ClickToMove>().enabled = false;
+        _deathFlag = true;
+    }
+
+    private void PlayHitAnimation()
+    {
+        ClickToMove.CurrentState = States.Fight;
+        _animationComponent.CrossFade(_attackAnimation.name);
+    }
+
+    private void LookAtEnemy()
+    {
+        if (!Opponent.Equals(null))
         {
-            ClickToMove.CurrentState = States.Idle;
-            _impactFlag = false;
+            Vector3 lookDirection = new Vector3(0, Opponent.transform.position.y, 0);
+            transform.LookAt(lookDirection);
         }
     }
 
@@ -64,6 +95,7 @@ public class Fight : MonoBehaviour
 
     private bool IsInRange()
     {
+        //Debug.Log($"Opponent: {Opponent.transform.position}\nPlayer: {transform.position}");
         return Vector3.Distance(Opponent.transform.position, transform.position) <= _attackRange;
     }
 }

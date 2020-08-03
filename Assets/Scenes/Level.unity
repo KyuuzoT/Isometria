@@ -370,6 +370,26 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 114508245174298140, guid: f7d9732e9ebce984bb4c32a9927bc4b3,
+        type: 2}
+      propertyPath: _hitAnimation
+      value: 
+      objectReference: {fileID: 7400006, guid: 86c591ebd74142c4d93243d9fa9544da, type: 3}
+    - target: {fileID: 114508245174298140, guid: f7d9732e9ebce984bb4c32a9927bc4b3,
+        type: 2}
+      propertyPath: _getHitAnimation
+      value: 
+      objectReference: {fileID: 7400008, guid: 86c591ebd74142c4d93243d9fa9544da, type: 3}
+    - target: {fileID: 114508245174298140, guid: f7d9732e9ebce984bb4c32a9927bc4b3,
+        type: 2}
+      propertyPath: _attackSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114508245174298140, guid: f7d9732e9ebce984bb4c32a9927bc4b3,
+        type: 2}
+      propertyPath: _damage
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f7d9732e9ebce984bb4c32a9927bc4b3, type: 2}
   m_IsPrefabParent: 0

@@ -9,6 +9,8 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] private float _currentHP = 100;
     [SerializeField] private float _secondsBeforeDisappear = 360;
 
+    private bool _deathFlag = false;
+
     public float GetCurrentHealth
     {
         get
@@ -27,25 +29,34 @@ public class HealthSystem : MonoBehaviour
 
     void Update()
     {
-        if(gameObject.tag == "Player")
+        if(!_deathFlag)
         {
-            DeathHandler("YOU'RE DEAD!");
-        }
-        else
-        {
-            DeathHandler();
+            if (gameObject.tag == "Player")
+            {
+                DeathHandler("YOU'RE DEAD!");
+            }
+            else
+            {
+                DeathHandler();
+            }
         }
     }
 
     private void DeathHandler(string deathMessage)
     {
-        Debug.Log(deathMessage);
+        if (_currentHP <= 0)
+        {
+            _deathFlag = true;
+            _currentHP = 0;
+            Debug.Log($"{deathMessage}");
+        }
     }
 
     private void DeathHandler()
     {
         if(_currentHP <= 0)
         {
+            _deathFlag = true;
             _currentHP = 0;
             Invoke("DestroyObject", _secondsBeforeDisappear);
         }

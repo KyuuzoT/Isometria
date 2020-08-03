@@ -10,7 +10,7 @@ public class SkeletonAI : MonoBehaviour
     [SerializeField] private float _agroRadius;
     [SerializeField] private float _approachDistance = 1;
     [SerializeField] private float _damage = 1;
-    [SerializeField][Range(5,15)] private float _attackSpeed = 1;
+    [SerializeField] [Range(5,15)] private float _attackSpeed = 1;
     [SerializeField] [Range(0,1)] private float _aggressiveness;
     [SerializeField] private CharacterController _controller;
 
@@ -18,6 +18,7 @@ public class SkeletonAI : MonoBehaviour
     [SerializeField] private AnimationClip _idleCombatAnimation;
     [SerializeField] private AnimationClip _runAnimation;
     [SerializeField] private AnimationClip _hitAnimation;
+    [SerializeField] private AnimationClip _getHitAnimation;
     [SerializeField] private AnimationClip _deathAnimation;
 
     private Animation _animationComponent;
@@ -26,26 +27,36 @@ public class SkeletonAI : MonoBehaviour
     private States _currentAnimationState;
     private bool _combatIdleFlag;
     private bool _deathFlag = false;
+    private bool _isHit = false;
+    int i = 0;
 
     void Start()
     {
         _animationComponent = transform.GetComponent<Animation>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _healthSystem = gameObject.GetComponent<HealthSystem>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(IsInAgroRadius() && _aggressiveness >=0.5f)
+        if (IsInAgroRadius() && _aggressiveness >= 0.5f)
         {
             _currentAnimationState = States.Move;
-            
+            if (IsInAttackRange())
+            {
+                _currentAnimationState = States.Fight;
+            }
         }
-        else if(IsInAgroRadius() && _aggressiveness >= 0.1)
+        else if (IsInAgroRadius() && _aggressiveness >= 0.1)
         {
             _currentAnimationState = States.Idle;
             _combatIdleFlag = true;
+            if (IsInAttackRange() && _isHit)
+            {
+                _currentAnimationState = States.Fight;
+            }
         }
         else
         {
@@ -53,11 +64,21 @@ public class SkeletonAI : MonoBehaviour
             _combatIdleFlag = false;
         }
 
-        if(gameObject.GetComponent<HealthSystem>().GetCurrentHealth == 0)
+        if (IsDead())
         {
             _currentAnimationState = States.Death;
         }
         StatesHandler();
+    }
+
+    private bool IsDead()
+    {
+        return gameObject.GetComponent<HealthSystem>().GetCurrentHealth <= 0;
+    }
+
+    private bool IsInAttackRange()
+    {
+        return Vector3.Distance(_player.transform.position, transform.position) <= _approachDistance;
     }
 
     private void StatesHandler()
@@ -78,7 +99,6 @@ public class SkeletonAI : MonoBehaviour
                 MoveTowardsPlayer();
                 break;
             case States.Fight:
-                
                 AttackPlayer();
                 break;
             case States.Death:
@@ -96,13 +116,21 @@ public class SkeletonAI : MonoBehaviour
 
     private void AttackPlayer()
     {
-        Invoke("HitPlayer", 1 + (1 - 1 / _attackSpeed));
+        if (!_animationComponent.IsPlaying(_hitAnimation.name))
+        {
+            StartCoroutine("HitPlayer");
+        }
     }
 
-    private void HitPlayer()
+    private IEnumerator HitPlayer()
     {
-        _animationComponent.CrossFade(_hitAnimation.name);
-        _player.GetComponent<HealthSystem>().ChangeCurrentHP(-_damage);
+        if(_player.GetComponent<HealthSystem>().GetCurrentHealth > 0)
+        {
+            _animationComponent.CrossFade(_hitAnimation.name);
+            _player.GetComponent<HealthSystem>().ChangeCurrentHP(-_damage);
+            Debug.Log($"{i++} hit\nPlayer's HP:{_player.GetComponent<HealthSystem>().GetCurrentHealth}");
+            yield return new WaitForSeconds(20 + (1 - 1 / _attackSpeed));
+        }
     }
 
     private void MoveTowardsPlayer()
@@ -126,8 +154,13 @@ public class SkeletonAI : MonoBehaviour
 
     public void GetHit(float Damage)
     {
-        _healthSystem.ChangeCurrentHP(-Damage);
-        Debug.Log(_healthSystem.GetCurrentHealth);
+        if(!_deathFlag)
+        {
+            _isHit = true;
+            _animationComponent.CrossFade(_getHitAnimation.name);
+            _healthSystem.ChangeCurrentHP(-Damage);
+            Debug.Log(_healthSystem.GetCurrentHealth);
+        }
     }
 
     private void OnMouseOver()
