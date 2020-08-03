@@ -71,11 +71,6 @@ public class SkeletonAI : MonoBehaviour
         StatesHandler();
     }
 
-    private bool IsDead()
-    {
-        return gameObject.GetComponent<HealthSystem>().GetCurrentHealth <= 0;
-    }
-
     private bool IsInAttackRange()
     {
         return Vector3.Distance(_player.transform.position, transform.position) <= _approachDistance;
@@ -161,6 +156,11 @@ public class SkeletonAI : MonoBehaviour
             _healthSystem.ChangeCurrentHP(-Damage);
             Debug.Log(_healthSystem.GetCurrentHealth);
         }
+    }
+
+    private bool IsDead()
+    {
+        return gameObject.GetComponent<HealthSystem>().GetCurrentHealth <= 0;
     }
 
     private void OnMouseOver()
