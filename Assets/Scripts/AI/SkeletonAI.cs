@@ -22,6 +22,8 @@ public class SkeletonAI : MonoBehaviour
     [SerializeField] private AnimationClip _getHitAnimation;
     [SerializeField] private AnimationClip _deathAnimation;
 
+    [SerializeField] private EnemyHealthBar _script;
+
     private Animation _animationComponent;
     private GameObject _player;
     private HealthSystem _healthSystem;
@@ -36,7 +38,7 @@ public class SkeletonAI : MonoBehaviour
         _animationComponent = transform.GetComponent<Animation>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _healthSystem = gameObject.GetComponent<HealthSystem>();
-        
+        _script.enabled = false;
     }
 
     // Update is called once per frame
@@ -168,11 +170,13 @@ public class SkeletonAI : MonoBehaviour
     {
         _player.transform.GetComponent<Fight>().Opponent = gameObject;
         ChangeOutlineThickness(0.1f);
+        _script.enabled = true;
     }
 
     private void OnMouseExit()
     {
         ChangeOutlineThickness(0.002f);
+        _script.enabled = false;
     }
 
     private void ChangeOutlineThickness(float thickness)

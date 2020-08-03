@@ -19,6 +19,14 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
+    public float GetMaxHealth
+    {
+        get
+        {
+            return _maxHP;
+        }
+    }
+
     void Awake()
     {
         if(_maxHP < 1)

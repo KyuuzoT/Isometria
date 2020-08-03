@@ -247,8 +247,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 200
-    height: 100
+    width: 300
+    height: 80
   _healthBarPoint: {fileID: 2800000, guid: 17e8fab8cc52cdf49b6201bad07431f1, type: 3}
   _healthBarPointPosition:
     serializedVersion: 2
@@ -256,6 +256,10 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
+  _horizontalDistance: 0.325
+  _verticalDistance: 0.415
+  _pointWidth: 0.505
+  _pointHeight: 0.16
 --- !u!4 &357741921
 Transform:
   m_ObjectHideFlags: 0
