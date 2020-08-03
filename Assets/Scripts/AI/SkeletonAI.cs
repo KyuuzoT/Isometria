@@ -13,6 +13,7 @@ public class SkeletonAI : MonoBehaviour
     [SerializeField] [Range(5,15)] private float _attackSpeed = 1;
     [SerializeField] [Range(0,1)] private float _aggressiveness;
     [SerializeField] private CharacterController _controller;
+    [SerializeField] private Renderer _renderComponent;
 
     [SerializeField] private AnimationClip _idleAnimation;
     [SerializeField] private AnimationClip _idleCombatAnimation;
@@ -166,5 +167,21 @@ public class SkeletonAI : MonoBehaviour
     private void OnMouseOver()
     {
         _player.transform.GetComponent<Fight>().Opponent = gameObject;
+        ChangeOutlineThickness(0.1f);
+    }
+
+    private void OnMouseExit()
+    {
+        ChangeOutlineThickness(0.002f);
+    }
+
+    private void ChangeOutlineThickness(float thickness)
+    {
+        Material[] mats = _renderComponent.materials;
+
+        foreach (Material item in mats)
+        {
+            item.SetFloat("_Outline", thickness);
+        }
     }
 }
