@@ -1953,6 +1953,7 @@ MonoBehaviour:
   _damage: 20
   _attackSpeed: 5
   _aggressiveness: 0.817
+  _stunTimeSeconds: 1
   _controller: {fileID: 143058969512911178}
   _renderComponent: {fileID: 137694884145585290}
   _idleAnimation: {fileID: 7400000, guid: 86c591ebd74142c4d93243d9fa9544da, type: 3}
@@ -2101,7 +2102,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2.76
-  m_Radius: 0.23
+  m_Radius: 0.8
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

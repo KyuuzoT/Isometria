@@ -130,6 +130,13 @@ public class Fight : MonoBehaviour
     private bool IsInRange()
     {
         //Debug.Log($"Opponent: {Opponent.transform.position}\nPlayer: {transform.position}");
-        return Vector3.Distance(Opponent.transform.position, transform.position) <= _attackRange;
+        if(Opponent != null)
+        {
+            return Vector3.Distance(Opponent.transform.position, transform.position) <= _attackRange;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

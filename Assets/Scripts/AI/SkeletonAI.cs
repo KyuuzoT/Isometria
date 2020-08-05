@@ -35,6 +35,7 @@ public class SkeletonAI : MonoBehaviour
     private bool _combatIdleFlag;
     private bool _deathFlag = false;
     private bool _isHit = false;
+    private float _stunTimer;
     int i = 0;
 
     void Start()
@@ -48,7 +49,24 @@ public class SkeletonAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsInAgroRadius() && _aggressiveness >= 0.5f)
+        if(_currentAnimationState != States.Stun)
+        {
+            if (IsInAgroRadius())
+            {
+                AggressiveBehaviour(_aggressiveness);
+            }
+        }
+
+        if (IsDead())
+        {
+            _currentAnimationState = States.Death;
+        }
+        StatesHandler();
+    }
+
+    private void AggressiveBehaviour(float aggressivenes)
+    {
+        if(aggressivenes >= 0.5f)
         {
             _currentAnimationState = States.Move;
             if (IsInAttackRange())
@@ -56,7 +74,7 @@ public class SkeletonAI : MonoBehaviour
                 _currentAnimationState = States.Fight;
             }
         }
-        else if (IsInAgroRadius() && _aggressiveness >= 0.1)
+        else if (aggressivenes >= 0.1f)
         {
             _currentAnimationState = States.Idle;
             _combatIdleFlag = true;
@@ -70,12 +88,6 @@ public class SkeletonAI : MonoBehaviour
             _currentAnimationState = States.Idle;
             _combatIdleFlag = false;
         }
-
-        if (IsDead())
-        {
-            _currentAnimationState = States.Death;
-        }
-        StatesHandler();
     }
 
     private bool IsInAttackRange()
@@ -112,7 +124,7 @@ public class SkeletonAI : MonoBehaviour
                 }
                 break;
             case States.Stun:
-                InvokeRepeating("GetStunned", _stunTimeSeconds, 0);
+                GetStunned();
                 break;
             default:
                 _animationComponent.CrossFade(_idleAnimation.name);
@@ -125,13 +137,21 @@ public class SkeletonAI : MonoBehaviour
         _tempState = _currentAnimationState;
         _currentAnimationState = States.Stun;
         _stunTimeSeconds = seconds;
+        _stunTimer = _stunTimeSeconds;
         Debug.Log("Stun!");
     }
 
     private void GetStunned()
     {
         _animationComponent.CrossFade(_idleCombatAnimation.name);
-        _currentAnimationState = _tempState;
+        if (_stunTimer > 0)
+        {
+            _stunTimer -= Time.deltaTime;
+        }
+        else
+        {
+            _currentAnimationState = _tempState;
+        }
     }
 
     private void AttackPlayer()
@@ -146,6 +166,7 @@ public class SkeletonAI : MonoBehaviour
     {
         if(_player.GetComponent<HealthSystem>().GetCurrentHealth > 0)
         {
+            transform.LookAt(_player.transform.position);
             _animationComponent.CrossFade(_hitAnimation.name);
             _player.GetComponent<HealthSystem>().ChangeCurrentHP(-_damage);
             Debug.Log($"{i++} hit\nPlayer's HP:{_player.GetComponent<HealthSystem>().GetCurrentHealth}");
@@ -190,9 +211,14 @@ public class SkeletonAI : MonoBehaviour
 
     private void OnMouseOver()
     {
+        ChangeOutlineThickness(0.08f);
+    }
+
+    private void OnMouseDown()
+    {
         _player.transform.GetComponent<Fight>().Opponent = gameObject;
         ChangeOutlineThickness(0.1f);
-        if(!_deathFlag)
+        if (!_deathFlag)
         {
             _script.enabled = true;
         }
@@ -201,7 +227,10 @@ public class SkeletonAI : MonoBehaviour
     private void OnMouseExit()
     {
         ChangeOutlineThickness(0.002f);
-        _script.enabled = false;
+        if(_deathFlag)
+        {
+            _script.enabled = false;
+        }
     }
 
     private void ChangeOutlineThickness(float thickness)

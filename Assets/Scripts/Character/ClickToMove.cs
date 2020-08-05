@@ -13,7 +13,7 @@ public class ClickToMove : MonoBehaviour
     [SerializeField] private AnimationClip _idleAnimation;
     [SerializeField] private AnimationClip _runAnimation;
 
-    private Vector3 position;
+    private Vector3 _position;
     private Animation _animationComponent;
     internal static States CurrentState;
 
@@ -27,7 +27,7 @@ public class ClickToMove : MonoBehaviour
 
     private void Start()
     {
-        position = transform.position;
+        _position = transform.position;
         _animationComponent = transform.GetComponent<Animation>();
     }
 
@@ -44,7 +44,7 @@ public class ClickToMove : MonoBehaviour
         }
         else
         {
-
+            _position = transform.position;
         }
     }
 
@@ -55,13 +55,13 @@ public class ClickToMove : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 1000f) && hit.collider.tag != "Player")
         {
-            position = hit.point;
+            _position = hit.point;
         }
     }
 
     private void moveToClickPosition()
     {
-        if (Vector3.Distance(transform.position, position) > _approachDistance)
+        if (Vector3.Distance(transform.position, _position) > _approachDistance)
         {
             Quaternion newRotation;
             ConstrainXZRotation(out newRotation);
@@ -78,7 +78,7 @@ public class ClickToMove : MonoBehaviour
 
     public void ConstrainXZRotation(out Quaternion rotation)
     {
-        rotation = Quaternion.LookRotation(position - transform.position, Vector3.forward);
+        rotation = Quaternion.LookRotation(_position - transform.position, Vector3.forward);
         rotation.x = 0f;
         rotation.z = 0f;
     }
