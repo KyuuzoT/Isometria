@@ -578,6 +578,7 @@ GameObject:
   - component: {fileID: 143058969512911178}
   - component: {fileID: 114712568663456152}
   - component: {fileID: 114578325801389980}
+  - component: {fileID: 114337034272895292}
   m_Layer: 0
   m_Name: SkeletonMage
   m_TagString: Mob
@@ -1922,6 +1923,18 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114337034272895292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1678877079321582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 805fbde7d48697349beff41aecc9b47e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stunEffect: {fileID: 0}
 --- !u!114 &114578325801389980
 MonoBehaviour:
   m_ObjectHideFlags: 1

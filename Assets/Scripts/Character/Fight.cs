@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Fight : MonoBehaviour
 {
+    public bool SpecialAttackFlag { get; set; }
+
     [SerializeField] private AnimationClip _attackAnimation;
     [SerializeField] private AnimationClip _deathAnimation;
     [SerializeField] private float _damage;
@@ -13,6 +15,7 @@ public class Fight : MonoBehaviour
     [SerializeField] private float _attackRange = 0;
     [SerializeField] private float _combatEscapeTime;
     [SerializeField] private int _stunTimeSeconds;
+    [SerializeField] private ParticleSystem _stunEffect;
     private float _countDown;
 
     internal GameObject Opponent;
@@ -20,18 +23,9 @@ public class Fight : MonoBehaviour
     private Animation _animationComponent;
     private bool _impactFlag = false;
     private bool _deathFlag = false;
+    private bool _stunAttackFlag;
 
-    public float Damage
-    {
-        get
-        {
-            return _damage;
-        }
-        set
-        {
-            _damage = value;
-        }
-    }
+    public float Damage { get; set; }
 
     void Start()
     {
@@ -44,30 +38,36 @@ public class Fight : MonoBehaviour
     {
         if(!_deathFlag)
         {
-            if(Input.GetKeyUp(KeyCode.Alpha1) && IsInRange())
+            if (Input.GetKeyUp(KeyCode.Alpha1) && IsInRange())
             {
+                GetComponent<SpecialAttack>().StunAttackFlag = true;
                 Opponent.GetComponent<SkeletonAI>().Stun(_stunTimeSeconds);
                 LookAtEnemy();
                 PlayHitAnimation();
             }
 
-            if (Input.GetKey(KeyCode.Space) && IsInRange())
-            {
-                LookAtEnemy();
-                PlayHitAnimation();
-            }
+            AttackTarget();
+        }
+    }
 
-            Impact();
+    private void AttackTarget()
+    {
+        if (Input.GetKey(KeyCode.Space) && IsInRange())
+        {
+            LookAtEnemy();
+            PlayHitAnimation();
+        }
 
-            if (IsDead())
-            {
-                PlayDeathAnimation();
-            }
-            else if (!_animationComponent.IsPlaying(_attackAnimation.name))
-            {
-                ClickToMove.CurrentState = States.Idle;
-                _impactFlag = false;
-            }
+        Impact();
+
+        if (IsDead())
+        {
+            PlayDeathAnimation();
+        }
+        else if (!_animationComponent.IsPlaying(_attackAnimation.name))
+        {
+            ClickToMove.CurrentState = States.Idle;
+            _impactFlag = false;
         }
     }
 
@@ -95,7 +95,6 @@ public class Fight : MonoBehaviour
     {
         if (!Opponent.Equals(null))
         {
-            Vector3 lookDirection = new Vector3(0, Opponent.transform.position.y, 0);
             transform.LookAt(Opponent.transform.position);
         }
     }

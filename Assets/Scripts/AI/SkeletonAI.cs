@@ -113,7 +113,14 @@ public class SkeletonAI : MonoBehaviour
                 MoveTowardsPlayer();
                 break;
             case States.Fight:
-                AttackPlayer();
+                if (IsInAttackRange())
+                {
+                    AttackPlayer();
+                }
+                else
+                {
+                    AggressiveBehaviour(_aggressiveness);
+                }
                 break;
             case States.Death:
                 if(!_deathFlag)
@@ -138,7 +145,6 @@ public class SkeletonAI : MonoBehaviour
         _currentAnimationState = States.Stun;
         _stunTimeSeconds = seconds;
         _stunTimer = _stunTimeSeconds;
-        Debug.Log("Stun!");
     }
 
     private void GetStunned()
@@ -147,6 +153,7 @@ public class SkeletonAI : MonoBehaviour
         if (_stunTimer > 0)
         {
             _stunTimer -= Time.deltaTime;
+            Debug.Log(_stunTimer);
         }
         else
         {
