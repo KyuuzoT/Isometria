@@ -4,13 +4,73 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class Item : MonoBehaviour
+public abstract class Item : ScriptableObject
 {
-    public Texture2D Image { get; set; }
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    [SerializeField] private Texture2D _image;
+    [SerializeField] private int _x;
+    [SerializeField] private int _y;
+    [SerializeField] private int _width;
+    [SerializeField] private int _height;
+
+    public Texture2D Image
+    {
+        get
+        {
+            return _image;
+        }
+        set
+        {
+            _image = value;
+        }
+    }
+
+    public int X
+    {
+        get
+        {
+            return _x;
+        }
+        set
+        {
+            _x = value;
+        }
+    }
+
+    public int Y
+    {
+        get
+        {
+            return _y;
+        }
+        set
+        {
+            _y = value;
+        }
+    }
+
+    public int Width
+    {
+        get
+        {
+            return _width;
+        }
+        set
+        {
+            _width = value;
+        }
+    }
+
+    public int Height
+    {
+        get
+        {
+            return _height;
+        }
+        set
+        {
+            _height = value;
+        }
+    }
 
     public abstract void PerformAction();
 }

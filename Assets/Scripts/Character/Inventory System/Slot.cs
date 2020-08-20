@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slot : MonoBehaviour
+public class Slot
 {
-    public Item InventoryItem;
-    public bool SlotOccupied;
-    public Rect SlotPosition;
+    [SerializeField] private Item InventoryItem;
+    [SerializeField] private Rect SlotPosition;
 
     public static Texture2D ItemInSlot { get; set; }
+    internal bool SlotOccupied;
 
     public Slot()
     {
-
     }
 
     public Slot(Rect position)
     {
-
+        this.SlotPosition = position;
     }
 
-    void DrawSlot(int frameX, int frameY)
+    internal void DrawSlot(float frameX, float frameY)
     {
-        GUI.DrawTexture(new Rect(frameX + SlotPosition.x, frameY + SlotPosition.y, SlotPosition.width, SlotPosition.height), InventoryItem.Image);
+        if (InventoryItem != null)
+        {
+            GUI.DrawTexture(new Rect(frameX + SlotPosition.x, frameY + SlotPosition.y, SlotPosition.width, SlotPosition.height), InventoryItem.Image);
+        }
     }
 }
