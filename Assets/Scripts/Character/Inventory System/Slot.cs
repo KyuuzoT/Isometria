@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Slot
 {
-    [SerializeField] private Item InventoryItem;
-    [SerializeField] private Rect SlotPosition;
+    public Item InventoryItem;
+    public Rect SlotPosition;
 
     public static Texture2D ItemInSlot { get; set; }
     internal bool SlotOccupied;

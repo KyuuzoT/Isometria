@@ -16,6 +16,7 @@ public class ClickToMove : MonoBehaviour
     private Vector3 _position;
     private Animation _animationComponent;
     internal static States CurrentState;
+    internal static bool _inventoryOpened;
 
     public float GetApproachDistance
     {
@@ -33,18 +34,21 @@ public class ClickToMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!CurrentState.Equals(States.Fight))
+        if(!_inventoryOpened)
         {
-            if (Input.GetMouseButton(0))
+            if (!CurrentState.Equals(States.Fight))
             {
-                locateClickPosition();
-            }
+                if (Input.GetMouseButton(0))
+                {
+                    locateClickPosition();
+                }
 
-            moveToClickPosition();
-        }
-        else
-        {
-            _position = transform.position;
+                moveToClickPosition();
+            }
+            else
+            {
+                _position = transform.position;
+            }
         }
     }
 

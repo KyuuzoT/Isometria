@@ -8,7 +8,7 @@ public class ItemsList : MonoBehaviour
     [SerializeField] private List<Texture2D> _serializedArmorTextures;
     internal static List<Armor> ArmorList;
 
-    private void Start()
+    private void Awake()
     {
         FillList();
         ArmorList = _serializedArmorList;

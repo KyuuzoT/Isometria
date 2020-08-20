@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 357741920}
   - component: {fileID: 357741922}
   - component: {fileID: 357741923}
+  - component: {fileID: 357741924}
   m_Layer: 0
   m_Name: GUI
   m_TagString: Untagged
@@ -339,26 +340,31 @@ MonoBehaviour:
   _verticalDistance: 0.415
   _pointWidth: 0.505
   _pointHeight: 0.16
---- !u!4 &357741921
-Transform:
+--- !u!224 &357741921
+RectTransform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 357741919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.636058, y: 2.5638428, z: 7.683244}
+  m_LocalPosition: {x: 7.636059, y: 2.5638428, z: 7.683244}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 7.636058, y: 2.5638428}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &357741922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 357741919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9ad5fc333a73a647b057363d0e0eb01, type: 3}
   m_Name: 
@@ -392,6 +398,24 @@ MonoBehaviour:
   _serializedArmorTextures:
   - {fileID: 2800000, guid: 65f2482e9d8065b4b8f951407290e7c1, type: 3}
   - {fileID: 2800000, guid: eb9964a9dc4d2724d83e4ec165f58790, type: 3}
+--- !u!114 &357741924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 357741919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab2ccad8e5ba5842a9d4b12ad71457e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionBarImage: {fileID: 2800000, guid: 4b621748fc3fdc840a331521a2b0c040, type: 3}
+  _actionBarPosition:
+    serializedVersion: 2
+    x: 0
+    y: 0.2
+    width: 1
+    height: 0.8
 --- !u!1 &418804391
 GameObject:
   m_ObjectHideFlags: 0

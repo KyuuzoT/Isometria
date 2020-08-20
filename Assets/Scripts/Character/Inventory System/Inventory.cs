@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour
 
     private float XCoord;
     private float YCoord;
+    private Vector2 _currentSelection;
+    private Vector2 _nextSelection;
 
     internal List<Item> Items = new List<Item>();
     internal Slot[,] slots;
@@ -53,6 +55,7 @@ public class Inventory : MonoBehaviour
         DrawInventory();
         DrawInventorySlots();
         DrawItems();
+        DetectGUIAction();
     }
 
     void DrawInventorySlots()
@@ -82,11 +85,14 @@ public class Inventory : MonoBehaviour
             {
                 if(slots[x,y].SlotOccupied)
                 {
+                    Debug.Log($"Slot[{x},{y}] is occupied!");
                     return;
                 }
             }
         }
 
+        item.X = x;
+        item.Y = y;
         Items.Add(item);
     }
 
@@ -104,5 +110,64 @@ public class Inventory : MonoBehaviour
                 ),
                 item.Image);
         }
+    }
+
+    void DetectGUIAction()
+    {
+        if(Input.mousePosition.x >= _inventoryRect.x && Input.mousePosition.x < _inventoryRect.x + _inventoryRect.width)
+        {
+            if (Screen.height - Input.mousePosition.y >= _inventoryRect.y && Screen.height - Input.mousePosition.y < _inventoryRect.y + _inventoryRect.height)
+            {
+                DetectMouseOnInventory();
+                ClickToMove._inventoryOpened = true;
+                return;
+            }
+        }
+
+        ClickToMove._inventoryOpened = false;
+    }
+
+    void DetectMouseOnInventory()
+    {
+        Item tempItem = null;
+        for (int i = 0; i < _slotRows; i++)
+        {
+            for (int j = 0; j < _slotCols; j++)
+            {
+                Rect slot = new Rect(_inventoryRect.x + slots[i,j].SlotPosition.x, _inventoryRect.y + slots[i, j].SlotPosition.y, _slotWidth, _slotHeight);
+                if(slot.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y)))
+                {
+                    if (Event.current.isMouse)
+                    {
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            _currentSelection.x = i;
+                            _currentSelection.y = j;
+                            if(slots[i,j].InventoryItem != null)
+                            {
+                                tempItem = slots[i, j].InventoryItem;
+                                slots[i, j].InventoryItem = null;
+                            }
+                        }
+                        else if (Input.GetMouseButtonUp(0))
+                        {
+                            _nextSelection.x = i;
+                            _nextSelection.y = j;
+
+                            if(_nextSelection != _currentSelection && tempItem != null)
+                            {
+                                DragItem(tempItem);
+                            }
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    private void DragItem(Item tempItem)
+    {
+        AddInventoryItem((int)_nextSelection.x, (int)_nextSelection.y, tempItem);
     }
 }
