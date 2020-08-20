@@ -148,6 +148,19 @@ MonoBehaviour:
   _healthForLevelUp: 200
   _damageForLevelUp: 30
   _graphicalEffect: {fileID: 317129420}
+--- !u!114 &188433752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 188433745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84734f6c0fa93d745829cd973e4a9396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stunEffect: {fileID: 19800004, guid: 0aa6dc6b8af2730419d737a1a5507cd8, type: 2}
+  _stunEffectHeight: 1.5
 --- !u!1 &299551714
 GameObject:
   m_ObjectHideFlags: 0
