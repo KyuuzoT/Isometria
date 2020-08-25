@@ -24,7 +24,7 @@ public class AnimationSystem : MonoBehaviour
 
     }
 
-    internal AnimationClip ReturnAnimationClip(AnimationStates state)
+    internal static AnimationClip ReturnAnimationClip(AnimationStates state)
     {
         switch (state)
         {
