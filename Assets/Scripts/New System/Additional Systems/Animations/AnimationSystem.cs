@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AnimationSystem : MonoBehaviour
 {
-    public AnimationClip Animation;
+    public static AnimationClip Animation;
 
-    [SerializeField] private List<AnimationClip> _animations;
+    [SerializeField] private static List<AnimationClip> _animations;
 
     void Start()
     {
