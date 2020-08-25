@@ -40,10 +40,10 @@ public class ClickToMove : MonoBehaviour
             {
                 if (Input.GetMouseButton(0))
                 {
-                    locateClickPosition();
+                    LocateClickPosition();
                 }
 
-                moveToClickPosition();
+                MoveToClickPosition();
             }
             else
             {
@@ -52,7 +52,7 @@ public class ClickToMove : MonoBehaviour
         }
     }
 
-    private void locateClickPosition()
+    private void LocateClickPosition()
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -63,7 +63,7 @@ public class ClickToMove : MonoBehaviour
         }
     }
 
-    private void moveToClickPosition()
+    private void MoveToClickPosition()
     {
         if (Vector3.Distance(transform.position, _position) > _approachDistance)
         {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SkeletonAI : MonoBehaviour
@@ -15,6 +16,7 @@ public class SkeletonAI : MonoBehaviour
     [SerializeField] private int _stunTimeSeconds = 3;
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Renderer _renderComponent;
+    [SerializeField] private AudioClip attackSound;
 
     [SerializeField] private AnimationClip _idleAnimation;
     [SerializeField] private AnimationClip _idleCombatAnimation;
@@ -37,6 +39,7 @@ public class SkeletonAI : MonoBehaviour
     private bool _isHit = false;
     private float _stunTimer;
     int i = 0;
+    private Vector3 _soundPosition;
 
     void Start()
     {
@@ -44,6 +47,7 @@ public class SkeletonAI : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
         _healthSystem = gameObject.GetComponent<HealthSystem>();
         _script.enabled = false;
+        _soundPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -177,8 +181,20 @@ public class SkeletonAI : MonoBehaviour
             _animationComponent.CrossFade(_hitAnimation.name);
             _player.GetComponent<HealthSystem>().ChangeCurrentHP(-_damage);
             Debug.Log($"{i++} hit\nPlayer's HP:{_player.GetComponent<HealthSystem>().GetCurrentHealth}");
-            yield return new WaitForSeconds(20 + (1 - 1 / _attackSpeed));
+            PlayAttackSound();
+            yield return new WaitForSeconds(2 + (1 - 1 / _attackSpeed));
         }
+    }
+
+    private async void PlayAttackSound()
+    {
+        Debug.Log("Playing!");
+        await Task.Run(() => PlaySound(attackSound));
+    }
+
+    void PlaySound(AudioClip sound)
+    {
+        AudioSource.PlayClipAtPoint(sound, _soundPosition);
     }
 
     private void MoveTowardsPlayer()
