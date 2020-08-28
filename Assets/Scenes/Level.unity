@@ -6208,9 +6208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4467aed86d0e6f9479adf6f970d15fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHP: 1000
-  _currentHP: 1000
-  _secondsBeforeDisappear: 10000
+  _maximalHP: 0
+  _currentHP: 0
 --- !u!114 &188433751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12238,36 +12237,6 @@ Prefab:
     - {fileID: 114337034272895292, guid: f4a6c670a0d22ea4ea33ea760661e509, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: f4a6c670a0d22ea4ea33ea760661e509, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &373987305 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1678877079321582, guid: f4a6c670a0d22ea4ea33ea760661e509,
-    type: 2}
-  m_PrefabInternal: {fileID: 373987304}
---- !u!114 &373987306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 373987305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4008ba74ac6dfa349b7a6b3a6372ce20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MinimalDamage: 0
-  MaximalDamage: 0
---- !u!114 &373987307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 373987305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b5ab424fdfed247839ccffd4ba795f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damage: {fileID: 373987306}
 --- !u!1001 &374210023
 Prefab:
   m_ObjectHideFlags: 0

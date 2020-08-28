@@ -5,7 +5,7 @@ using UnityEngine;
 public class Mob : MonoBehaviour
 {
     internal bool IsMobHighlited;
-    private Damage Damage;
+    private DamageSystem Damage;
     // Use this for initialization
     void Start()
     {
