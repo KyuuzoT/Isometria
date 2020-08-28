@@ -42,7 +42,7 @@ public class LevelSystem : MonoBehaviour
 
     private void LevelUpEffect()
     {
-        transform.GetComponent<HealthSystem>().MaximalHealth += _healthForLevelUp;
+        transform.GetComponent<HealthSystemDeprecated>().MaximalHealth += _healthForLevelUp;
         transform.GetComponent<Fight>().Damage = transform.GetComponent<Fight>().Damage + _damageForLevelUp;
         _graphicalEffect.SetActive(true);
         StartCoroutine(TurnOffLevelUpEffect());

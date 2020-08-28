@@ -33,7 +33,7 @@ public class EnemyHealthBar : MonoBehaviour
         _opponent = _player.GetComponent<Fight>().Opponent;
         if (_opponent != null)
         {
-            _healthPercentage = _opponent.GetComponent<HealthSystem>().GetCurrentHealth / _opponent.GetComponent<HealthSystem>().MaximalHealth;
+            _healthPercentage = _opponent.GetComponent<HealthSystemDeprecated>().GetCurrentHealth / _opponent.GetComponent<HealthSystemDeprecated>().MaximalHealth;
         }
         else
         {

@@ -31,7 +31,7 @@ public class SkeletonAI : MonoBehaviour
 
     private Animation _animationComponent;
     private GameObject _player;
-    private HealthSystem _healthSystem;
+    private HealthSystemDeprecated _healthSystem;
     private States _currentAnimationState;
     private States _tempState;
     private bool _combatIdleFlag;
@@ -45,7 +45,7 @@ public class SkeletonAI : MonoBehaviour
     {
         _animationComponent = transform.GetComponent<Animation>();
         _player = GameObject.FindGameObjectWithTag("Player");
-        _healthSystem = gameObject.GetComponent<HealthSystem>();
+        _healthSystem = gameObject.GetComponent<HealthSystemDeprecated>();
         _script.enabled = false;
         _soundPosition = transform.position;
     }
@@ -175,12 +175,12 @@ public class SkeletonAI : MonoBehaviour
 
     private IEnumerator HitPlayer()
     {
-        if(_player.GetComponent<HealthSystem>().GetCurrentHealth > 0)
+        if(_player.GetComponent<HealthSystemDeprecated>().GetCurrentHealth > 0)
         {
             transform.LookAt(_player.transform.position);
             _animationComponent.CrossFade(_hitAnimation.name);
-            _player.GetComponent<HealthSystem>().ChangeCurrentHP(-_damage);
-            Debug.Log($"{i++} hit\nPlayer's HP:{_player.GetComponent<HealthSystem>().GetCurrentHealth}");
+            _player.GetComponent<HealthSystemDeprecated>().ChangeCurrentHP(-_damage);
+            Debug.Log($"{i++} hit\nPlayer's HP:{_player.GetComponent<HealthSystemDeprecated>().GetCurrentHealth}");
             PlayAttackSound();
             yield return new WaitForSeconds(2 + (1 - 1 / _attackSpeed));
         }
@@ -229,7 +229,7 @@ public class SkeletonAI : MonoBehaviour
 
     private bool IsDead()
     {
-        return gameObject.GetComponent<HealthSystem>().GetCurrentHealth <= 0;
+        return gameObject.GetComponent<HealthSystemDeprecated>().GetCurrentHealth <= 0;
     }
 
     private void OnMouseOver()

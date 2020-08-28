@@ -7,9 +7,8 @@ public class DamageSystem : MonoBehaviour
     public int MinimalDamage;
     public int MaximalDamage;
 
-    public float ReturnDamage()
+    public int ReturnDamage()
     {
-        float resultDamage = Random.Range((float)MinimalDamage, (float)MaximalDamage);
-        return resultDamage;
+        return Random.Range(MinimalDamage, MaximalDamage);
     }
 }

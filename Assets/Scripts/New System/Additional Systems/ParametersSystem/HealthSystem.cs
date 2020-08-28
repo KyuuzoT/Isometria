@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -61,6 +62,23 @@ public class HealthSystem : MonoBehaviour
             {
                 transform.GetComponent<CorpseSystem>().InvokeDestroying();
             }
+        }
+    }
+
+    public void ChangeCurrentHP(int ammount)
+    {
+        if(_currentHP + ammount >= _maximalHP)
+        {
+            _currentHP = _maximalHP;
+        }
+        else
+        {
+            _currentHP += ammount;
+        }
+
+        if(_currentHP < 0)
+        {
+            _currentHP = 0;
         }
     }
 }
