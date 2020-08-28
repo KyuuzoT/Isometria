@@ -73,7 +73,7 @@ public class Fight : MonoBehaviour
 
     private bool IsDead()
     {
-        return transform.GetComponent<HealthSystem>().GetCurrentHealth <= 0;
+        return transform.GetComponent<HealthSystemDeprecated>().GetCurrentHealth <= 0;
     }
 
     private void PlayDeathAnimation()

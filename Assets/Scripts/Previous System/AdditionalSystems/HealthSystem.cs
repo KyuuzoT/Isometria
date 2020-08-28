@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthSystem : MonoBehaviour
+[Obsolete("This system is deprecated, use HealthSystem instead.")]
+public class HealthSystemDeprecated : MonoBehaviour
 {
     [SerializeField] private float _maxHP = 100;
     [SerializeField] private float _currentHP = 100;
@@ -33,7 +34,7 @@ public class HealthSystem : MonoBehaviour
 
     void Awake()
     {
-        if(_maxHP < 1)
+        if (_maxHP < 1)
         {
             _maxHP = 1;
         }
@@ -41,7 +42,7 @@ public class HealthSystem : MonoBehaviour
 
     void Update()
     {
-        if(!_deathFlag)
+        if (_deathFlag)
         {
             if (gameObject.tag == "Player")
             {
@@ -58,20 +59,20 @@ public class HealthSystem : MonoBehaviour
     {
         if (_currentHP <= 0)
         {
-            _deathFlag = true;
             _currentHP = 0;
             Debug.Log($"{deathMessage}");
         }
+        _deathFlag = false;
     }
 
     private void DeathHandler()
     {
-        if(_currentHP <= 0)
+        if (_currentHP <= 0)
         {
-            _deathFlag = true;
             _currentHP = 0;
             Invoke("DestroyObject", _secondsBeforeDisappear);
         }
+        _deathFlag = false;
     }
 
     private void DestroyObject()
@@ -81,7 +82,7 @@ public class HealthSystem : MonoBehaviour
 
     public void ChangeCurrentHP(float ammount)
     {
-        if(_currentHP + ammount >= _maxHP)
+        if (_currentHP + ammount >= _maxHP)
         {
             _currentHP = _maxHP;
         }
@@ -93,6 +94,7 @@ public class HealthSystem : MonoBehaviour
         if (_currentHP < 0)
         {
             _currentHP = 0;
+            _deathFlag = true;
         }
     }
 }

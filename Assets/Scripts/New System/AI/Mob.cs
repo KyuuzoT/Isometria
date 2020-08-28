@@ -5,6 +5,7 @@ using UnityEngine;
 public class Mob : MonoBehaviour
 {
     internal bool IsMobHighlited;
+    private DamageSystem Damage;
     // Use this for initialization
     void Start()
     {
@@ -13,6 +14,16 @@ public class Mob : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    public void GetHit(float damage)
+    {
+
+    }
+
+    private void MakeHit()
     {
 
     }

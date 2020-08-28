@@ -51,7 +51,9 @@ public class Player : MonoBehaviour
         gameObject.transform.LookAt(Enemy.transform.position);
     }
 
-    public void GetHit()
+    public void GetHit(float damage)
     {
+        _playerAnimation.CrossFade(AnimationSystem.ReturnAnimationClip(AnimationStates.GetHit).name);
+        //ChangeCurrentHP(-Damage)
     }
 }
