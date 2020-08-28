@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Obsolete("This system is deprecated, use HealthSystem instead.", true)]
+[Obsolete("This system is deprecated, use HealthSystem instead.")]
 public class HealthSystemDeprecated : MonoBehaviour
 {
     [SerializeField] private float _maxHP = 100;
