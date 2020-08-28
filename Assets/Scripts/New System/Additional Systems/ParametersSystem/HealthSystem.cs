@@ -6,7 +6,7 @@ public class HealthSystem : MonoBehaviour
 {
     [SerializeField] private int _maximalHP;
     [SerializeField] private int _currentHP;
-    [SerializeField] private int _secondsBeforeDisappear;
+    
 
     private bool _deathFlag = false;
 
@@ -59,7 +59,7 @@ public class HealthSystem : MonoBehaviour
             }
             else
             {
-                DestroyCorpse(_secondsBeforeDisappear);
+                transform.GetComponent<CorpseSystem>().InvokeDestroying();
             }
         }
     }
